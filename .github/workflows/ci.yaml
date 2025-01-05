@@ -43,6 +43,7 @@ jobs:
   mvn-build:
     needs: mvn-verify
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v4
@@ -66,7 +67,7 @@ jobs:
   docker-build:
     needs: mvn-build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    if: github.event_name != 'pull_request' || github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v4
