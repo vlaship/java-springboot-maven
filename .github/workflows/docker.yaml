@@ -10,6 +10,7 @@ on:
 permissions:
   contents: read
   packages: write
+  actions: read
 
 jobs:
   build:
@@ -19,7 +20,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download artifact
+      - name: Download artifacts from Maven workflow
+        if: github.event_name == 'workflow_run'
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: Maven Build
+          run_id: ${{ github.event.workflow_run.id }}
+          name: app.jar
+          path: target
+
+      - name: Download artifact for manual run
+        if: github.event_name == 'workflow_dispatch'
         uses: actions/download-artifact@v4
         with:
           name: app.jar
