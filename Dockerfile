@@ -1,6 +1,6 @@
 ### Build stage
 # Builder maven
-FROM maven:3.9.9-amazoncorretto-21-alpine AS builder
+FROM maven:3-eclipse-temurin-21-alpine AS builder
 
 # Set the working directory inside the container
 WORKDIR /tmp
@@ -17,7 +17,7 @@ RUN java -Djarmode=layertools -jar target/*.jar extract
 
 ### Run stage
 # Create a minimal production image
-FROM azul/zulu-openjdk-alpine:21-jre-headless
+FROM eclipse-temurin:21-jre-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
