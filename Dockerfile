@@ -10,7 +10,7 @@ COPY pom.xml .
 COPY src src/
 
 # Build
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Extract the layers
 RUN java -Djarmode=layertools -jar target/*.jar extract
