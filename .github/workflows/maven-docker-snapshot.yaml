@@ -85,6 +85,7 @@ jobs:
   docker-push:
     needs: docker-build
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Download Docker image artifact
