@@ -14,7 +14,7 @@ permissions:
   packages: write
 
 jobs:
-  verify:
+  mvn-verify:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,8 +40,8 @@ jobs:
       - name: Verify
         run: mvn -B clean verify --file pom.xml
 
-  build:
-    needs: verify
+  mvn-build:
+    needs: mvn-verify
     runs-on: ubuntu-latest
 
     steps:
@@ -64,6 +64,7 @@ jobs:
           path: target/*.jar
 
   docker-build:
+    needs: mvn-build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event_name == 'pull_request'
 
