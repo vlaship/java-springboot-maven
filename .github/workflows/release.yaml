@@ -1,4 +1,4 @@
-name: Test and Build Snapshot
+name: Test and Build Release
 
 on:
   push:
@@ -65,7 +65,9 @@ jobs:
           password: ${{ secrets.GHCR_PAT }}
 
       - name: Get Version
-        run: echo "CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+        run: |
+          mvn versions:set -DremoveSnapshot
+          echo "CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
       - name: Build Docker image
         uses: docker/build-push-action@v6
