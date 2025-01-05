@@ -83,7 +83,9 @@ jobs:
 #          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:snapshot-${{ github.run_id }}
 
   increment-version:
-#    needs: maven-build
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    #    needs: maven-build
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -122,5 +124,5 @@ jobs:
 
           # Commit and push the new snapshot version
           git add pom.xml
-          git commit -m "Increment version to $NEW_VERSION"
+          git commit -m "Increment version to $NEW_VERSION [skip ci]"
           git push origin $(git rev-parse --abbrev-ref HEAD)
