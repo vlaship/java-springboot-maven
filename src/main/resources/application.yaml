@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: book-catalog
+    version: '@project.version@'
+  mvc:
+    problemdetails:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    git:
+      mode: full
+
+server:
+  port: 8888
+  servlet:
+    context-path: /${spring.application.name}
+  error:
+    whitelabel:
+      enabled: false

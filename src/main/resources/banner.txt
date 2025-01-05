@@ -1,0 +1,11 @@
+
+/////////////////////////////////////////////////////////////////
+////
+//// :: application name      :: ${spring.application.name}
+//// :: application version   :: ${spring.application.version}
+//// :: spring-boot version   :: ${spring-boot.version}
+//// :: spring active profile :: ${spring.profiles.active:}
+//// :: context-path          :: ${server.servlet.context-path}
+//// :: server port           :: ${server.port}
+////
+/////////////////////////////////////////////////////////////////
