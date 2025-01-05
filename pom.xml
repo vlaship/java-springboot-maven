@@ -22,6 +22,7 @@
         <spring-boot-dependencies.version>3.4.1</spring-boot-dependencies.version>
         <springdoc.version>2.7.0</springdoc.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <git-commit-id-maven-plugin.version>9.0.1</git-commit-id-maven-plugin.version>
     </properties>
 
@@ -90,6 +91,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <parameters>true</parameters>
                     <annotationProcessorPaths>
