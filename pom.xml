@@ -5,7 +5,7 @@
 
     <groupId>io.github.vlaship.book.catalog</groupId>
     <artifactId>book-catalog</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>book-catalog</name>
     <description>Demo Book Catalog</description>
@@ -23,7 +23,6 @@
         <springdoc.version>2.7.0</springdoc.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <git-commit-id-maven-plugin.version>9.0.1</git-commit-id-maven-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
     </properties>
 
     <dependencies>
@@ -91,7 +90,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <parameters>true</parameters>
                     <annotationProcessorPaths>
