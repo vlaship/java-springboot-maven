@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - 'main'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -52,7 +53,19 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build JVM Docker image
-        run: docker build --file ./Dockerfile .
+        run: |
+          docker build --file ./Dockerfile --tag my-image:latest .
+
+      - name: Save Docker image to disk
+        run: |
+          docker save my-image:latest -o my-image.tar
+        if: success()
+
+      - name: Upload Docker image to GitHub Actions artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: my-image.tar
 
   docker-push:
     needs: docker-build
@@ -61,6 +74,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Download Docker image from previous job
+        uses: actions/download-artifact@v3
+        with:
+          name: docker-image
+          path: ./my-image.tar
+
+      - name: Load Docker image from disk
+        run: |
+          docker load -i ./my-image.tar
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -72,7 +95,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_PAT }}
 
-      - name: Build and push Docker image
+      - name: Push Docker image to GitHub Container Registry
         run: |
-          docker build --file ./Dockerfile . --tag ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          docker tag my-image:latest ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
           docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
