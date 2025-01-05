@@ -44,7 +44,7 @@ jobs:
           cache-dependency-path: '**/pom.xml'
 
       - name: Build
-        run: mvn package
+        run: mvn -B package --file pom.xml
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -81,3 +81,32 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:snapshot-${{ github.run_id }}
+
+  increment-version:
+    needs: maven-build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Increment Snapshot Version
+        run: |
+          # Extract current version and increment patch version
+          CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1)
+          MINOR=$(echo $CURRENT_VERSION | cut -d. -f2)
+          PATCH=$(echo $CURRENT_VERSION | cut -d. -f3 | cut -d- -f1)
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH-SNAPSHOT"
+
+          # Update version in pom.xml
+          mvn versions:set -DnewVersion=$NEW_VERSION
+          mvn versions:commit
+
+          # Commit and push the new snapshot version
+          git add pom.xml
+          git commit -m "Increment version to $NEW_VERSION"
+          git push origin $(git rev-parse --abbrev-ref HEAD)
