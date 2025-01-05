@@ -79,10 +79,10 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_PAT }}
 
-      - name: Set version
+      - name: Get Version
         run: echo "CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Build JVM Docker image
+      - name: Build Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
