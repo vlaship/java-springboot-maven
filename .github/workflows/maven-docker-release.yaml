@@ -68,9 +68,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build JVM Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: book-catalog-service:${{ github.run_id }}
+          tags: ghcr.io/${{ github.repository_owner }}/book-catalog-service:${{ github.run_id }}
