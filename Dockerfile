@@ -1,19 +1,15 @@
 ### Build stage
 # Builder maven
-FROM maven:3-eclipse-temurin-21-alpine AS builder
+FROM scratch AS builder
 
 # Set the working directory inside the container
 WORKDIR /tmp
 
 # Copy the source code into the container
-COPY pom.xml .
-COPY src src/
-
-# Build
-RUN mvn clean package -DskipTests
+COPY target/*.jar app.jar
 
 # Extract the layers
-RUN java -Djarmode=layertools -jar target/*.jar extract
+RUN java -Djarmode=layertools -jar app.jar extract
 
 ### Run stage
 # Create a minimal production image
