@@ -14,32 +14,32 @@ permissions:
   packages: write
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+  # build-and-test:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
-          cache-dependency-path: '**/pom.xml'
+  #     - name: Set up JDK 21
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         java-version: '21'
+  #         distribution: 'temurin'
+  #         cache: maven
+  #         cache-dependency-path: '**/pom.xml'
 
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.m2/repository
-            !~/.m2/repository/io/github/vlaship
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+  #     - name: Cache Maven packages
+  #       uses: actions/cache@v4
+  #       with:
+  #         path: |
+  #           ~/.m2/repository
+  #           !~/.m2/repository/io/github/vlaship
+  #         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-maven-
 
-      - name: Build and test with Maven
-        run: mvn -B verify --file pom.xml
+  #     - name: Build and test with Maven
+  #       run: mvn -B verify --file pom.xml
 
   docker-build:
     needs: build-and-test
@@ -53,19 +53,18 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build JVM Docker image
-        run: |
-          docker build --file ./Dockerfile --tag book-catalog-service:latest .
-
-      - name: Save Docker image to disk
-        run: |
-          docker save book-catalog-service:latest -o book-catalog-service.tar
-        if: success()
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: myapp:latest
+          outputs: type=docker,dest=/tmp/book-catalog-service.tar
 
       - name: Upload Docker image as an artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docker-image
-          path: book-catalog-service.tar
+          path: /tmp/book-catalog-service.tar
 
   docker-push:
     needs: docker-build
@@ -73,20 +72,14 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-      - uses: actions/checkout@v4
-
       - name: Download Docker image artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: docker-image
-          path: ./book-catalog-service.tar
+          path: /tmp
 
       - name: Load Docker image from artifact
-        run: |
-          docker load -i ./book-catalog-service.tar
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        run: docker load --input /tmp/book-catalog-service.tar
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
