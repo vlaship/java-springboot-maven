@@ -54,18 +54,18 @@ jobs:
 
       - name: Build JVM Docker image
         run: |
-          docker build --file ./Dockerfile --tag my-image:latest .
+          docker build --file ./Dockerfile --tag book-catalog-service:latest .
 
       - name: Save Docker image to disk
         run: |
-          docker save my-image:latest -o my-image.tar
+          docker save book-catalog-service:latest -o book-catalog-service.tar
         if: success()
 
-      - name: Upload Docker image to GitHub Actions artifacts
+      - name: Upload Docker image as an artifact
         uses: actions/upload-artifact@v3
         with:
           name: docker-image
-          path: my-image.tar
+          path: book-catalog-service.tar
 
   docker-push:
     needs: docker-build
@@ -75,15 +75,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Docker image from previous job
+      - name: Download Docker image artifact
         uses: actions/download-artifact@v3
         with:
           name: docker-image
-          path: ./my-image.tar
+          path: ./book-catalog-service.tar
 
-      - name: Load Docker image from disk
+      - name: Load Docker image from artifact
         run: |
-          docker load -i ./my-image.tar
+          docker load -i ./book-catalog-service.tar
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -97,5 +97,5 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         run: |
-          docker tag my-image:latest ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          docker tag book-catalog-service:latest ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
           docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
