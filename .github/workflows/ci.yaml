@@ -42,7 +42,7 @@ jobs:
   #       run: mvn -B verify --file pom.xml
 
   docker-build:
-    needs: build-and-test
+    # needs: build-and-test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event_name == 'pull_request'
 
