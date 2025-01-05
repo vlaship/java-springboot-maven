@@ -12,6 +12,8 @@ permissions:
 
 jobs:
   maven-verify:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
     runs-on: ubuntu-latest
 
     steps:
@@ -40,6 +42,8 @@ jobs:
   docker-build-push:
     needs: maven-build
     runs-on: ubuntu-latest
+    env:
+      CURRENT_VERSION: ''
 
     steps:
       - uses: actions/checkout@v4
@@ -60,22 +64,39 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_PAT }}
 
+      - name: Set version
+        run: echo "CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
       - name: Build JVM Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.run_id }}
+          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ env.CURRENT_VERSION }}-${{ github.run_id }}
 
   increment-version:
-    needs: maven-build
+    needs: docker-build-push
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GIT_PAT }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: '**/pom.xml'
+
       - name: Configure Git
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Increment Snapshot Version
         run: |
@@ -93,5 +114,5 @@ jobs:
 
           # Commit and push the new snapshot version
           git add pom.xml
-          git commit -m "Increment version to $NEW_VERSION"
+          git commit -m "Increment version to $NEW_VERSION [skip ci]"
           git push origin $(git rev-parse --abbrev-ref HEAD)
