@@ -1,10 +1,9 @@
-name: Docker Build
+name: Test and Build Snapshot
 
 on:
-  workflow_run:
-    workflows: ["Maven Build"]
-    types:
-      - completed
+  push:
+    branches-ignore:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -12,8 +11,49 @@ permissions:
   packages: write
 
 jobs:
-  build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+  maven-verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: '**/pom.xml'
+
+      - name: Verify
+        run: mvn -B clean verify --file pom.xml
+
+  maven-build:
+    needs: maven-verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: '**/pom.xml'
+
+      - name: Build
+        run: mvn package
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app.jar
+          path: target/*.jar
+
+  docker-build:
+    needs: maven-build
     runs-on: ubuntu-latest
 
     steps:
@@ -42,10 +82,9 @@ jobs:
           name: docker-image
           path: /tmp/book-catalog-service.tar
 
-  push:
-    needs: build
+  docker-push:
+    needs: docker-build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Download Docker image artifact
@@ -66,5 +105,7 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         run: |
-          docker tag book-catalog-service:latest ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
-          docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
+
+          docker tag book-catalog-service:latest $IMAGE_NAME:${{ github.run_id }}
+          docker push --all-tags $IMAGE_NAME
