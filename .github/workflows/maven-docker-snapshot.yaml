@@ -1,9 +1,9 @@
-name: Test and Build
+name: Test and Build Snapshot
 
 on:
   push:
-    branches:
-      - '**'
+    branches-ignore:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -105,9 +105,5 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
-  
-          docker tag book-catalog-service:latest $IMAGE_NAME:latest
-          docker tag book-catalog-service:latest $IMAGE_NAME:${{ github.run_id }}
-          
+          docker tag book-catalog-service:latest ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.run_id }}
           docker push --all-tags $IMAGE_NAME
