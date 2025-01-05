@@ -1,6 +1,6 @@
 ### Build stage
 # Builder maven
-FROM scratch AS builder
+FROM eclipse-temurin:21-jre-alpine AS builder
 
 # Set the working directory inside the container
 WORKDIR /tmp
