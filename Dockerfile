@@ -1,5 +1,4 @@
 ### Build stage
-# Builder maven
 FROM eclipse-temurin:21-jre-alpine AS builder
 
 # Set the working directory inside the container
