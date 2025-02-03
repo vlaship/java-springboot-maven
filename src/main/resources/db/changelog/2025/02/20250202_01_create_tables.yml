@@ -1,0 +1,140 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1738553062016_01
+      author: vlaship
+      preConditions:
+        - not:
+            - tableExists:
+                tableName: authors
+      changes:
+        - createTable:
+            tableName: authors
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: 1738553062016_02
+      author: vlaship
+      preConditions:
+        - not:
+            - tableExists:
+                tableName: books
+      changes:
+        - createTable:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: isbn
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: author_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_books_authors
+            baseTableName: books
+            baseColumnNames: author_id
+            referencedTableName: authors
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
+  - changeSet:
+      id: 1738553062016_03
+      author: vlaship
+      preConditions:
+        - not:
+            - tableExists:
+                tableName: stores
+      changes:
+        - createTable:
+            tableName: stores
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 1738553062016_04
+      author: vlaship
+      preConditions:
+        - not:
+            - tableExists:
+                tableName: book_stores
+      changes:
+        - createTable:
+            tableName: book_stores
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: store_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: book_stores
+            columnNames: book_id, store_id
+            constraintName: pk_book_stores
+        - addForeignKeyConstraint:
+            constraintName: fk_book_stores_books
+            baseTableName: book_stores
+            baseColumnNames: book_id
+            referencedTableName: books
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: fk_book_stores_stores
+            baseTableName: book_stores
+            baseColumnNames: store_id
+            referencedTableName: stores
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE

@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1738554141605_01
+      author: vlaship
+      changes:
+        - loadData:
+            tableName: authors
+            file: db/changelog/2025/02/data/authors.csv
+            separator: ','
+            encoding: UTF-8
+            columns:
+              - column:
+                  name: id
+                  type: NUMERIC
+              - column:
+                  name: name
+                  type: STRING
+
+  - changeSet:
+      id: 1738554141605_02
+      author: vlaship
+      changes:
+        - loadData:
+            tableName: books
+            file: db/changelog/2025/02/data/books.csv
+            separator: ','
+            encoding: UTF-8
+            columns:
+              - column:
+                  name: id
+                  type: NUMERIC
+              - column:
+                  name: title
+                  type: STRING
+              - column:
+                  name: isbn
+                  type: STRING
+              - column:
+                  name: author_id
+                  type: NUMERIC
+
+  - changeSet:
+      id: 1738554141605_03
+      author: vlaship
+      changes:
+        - loadData:
+            tableName: stores
+            file: db/changelog/2025/02/data/stores.csv
+            separator: ','
+            encoding: UTF-8
+            columns:
+              - column:
+                  name: id
+                  type: NUMERIC
+              - column:
+                  name: name
+                  type: STRING
+              - column:
+                  name: address
+                  type: STRING
+
+  - changeSet:
+      id: 1738554141605_04
+      author: vlaship
+      changes:
+        - loadData:
+            tableName: book_stores
+            file: db/changelog/2025/02/data/book-stores.csv
+            separator: ','
+            encoding: UTF-8
+            columns:
+              - column:
+                  name: book_id
+                  type: NUMERIC
+              - column:
+                  name: store_id
+                  type: NUMERIC
