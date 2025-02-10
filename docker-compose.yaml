@@ -8,4 +8,36 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5432:5432"
+      - ${DB_PORT}:${DB_PORT}
+
+  data:
+    build:
+      context: ./book-store-data
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - ${SERVER_PORT_DATA}:${SERVER_PORT_DATA}
+    depends_on:
+      - postgres
+    environment:
+      SERVER_PORT_DATA: ${SERVER_PORT_DATA}
+      DB_HOST: postgres
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_SCHEMA: ${DB_SCHEMA}
+
+  facade:
+    build:
+      context: ./book-store-facade
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+        - ${SERVER_PORT_FACADE}:${SERVER_PORT_FACADE}
+    depends_on:
+        - data
+    environment:
+      SERVER_PORT_FACADE: ${SERVER_PORT_FACADE}
+      SERVER_PORT_DATA: ${SERVER_PORT_DATA}
+      DATA_URL: data

@@ -1,0 +1,9 @@
+@id=0194f161-5c42-7958-8915-7cf7496d4b00
+
+### GET authors
+GET http://localhost:19999/book-store-facade-service/v1/author
+
+### GET author by ID
+GET http://localhost:19999/book-store-facade-service/v1/author/{{id}}
+
+###

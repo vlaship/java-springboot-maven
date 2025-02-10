@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: book-store-facade-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+server:
+  port: ${SERVER_PORT_FACADE}
+  servlet:
+    context-path: /${spring.application.name}
+
+data-service:
+  author.url: http://${DATA_URL}:${SERVER_PORT_DATA}/book-store-data-service/v1/author
+  book.url: http://${DATA_URL}:${SERVER_PORT_DATA}/book-store-data-service/v1/book
+  store.url: http://${DATA_URL}:${SERVER_PORT_DATA}/book-store-data-service/v1/store

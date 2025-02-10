@@ -1,1 +1,1 @@
-# java-springboot-maven
+# book-store legacy
