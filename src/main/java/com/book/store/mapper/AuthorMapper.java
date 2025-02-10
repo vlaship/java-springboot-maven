@@ -12,20 +12,20 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
-    componentModel = MappingConstants.ComponentModel.SPRING,
-    unmappedTargetPolicy = ReportingPolicy.WARN,
-    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+        componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.WARN,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 public interface AuthorMapper {
 
-  AuthorResponse map(Author entity);
+    AuthorResponse map(Author entity);
 
-  Author map(AuthorResponse dto);
+    Author map(AuthorResponse dto);
 
-  @Mapping(target = "id", ignore = true)
-  Author map(CreateAuthorRequest dto);
+    @Mapping(target = "id", ignore = true)
+    Author map(CreateAuthorRequest dto);
 
-  @Mapping(target = "id", ignore = true)
-  @Mapping(target = "name", source = "name")
-  void merge(@MappingTarget Author entity, UpdateAuthorRequest dto);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "name")
+    void merge(@MappingTarget Author entity, UpdateAuthorRequest dto);
 }

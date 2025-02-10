@@ -1,68 +1,20 @@
 spring:
   application:
     name: book-store
-    version: '@project.version@'
-  mvc:
-    problemdetails:
-      enabled: true
-  threads:
-    virtual:
-      enabled: true
 
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?currentSchema=${DB_SCHEMA}
     username: ${DB_USER}
     password: ${DB_PASS}
     driver-class-name: org.postgresql.Driver
-
-    type: com.zaxxer.hikari.HikariDataSource
-
-    hikari:
-      schema: ${spring.liquibase.default-schema}
-      connection-test-query: SELECT 1
-      data-source-properties:
-        ApplicationName: ${spring.application.name}
-        reWriteBatchedInserts: true
-      pool-name: poolHikari
-      register-mbeans: true
-
-  liquibase:
-    enabled: true
-    default-schema: ${DB_SCHEMA}
-    change-log: classpath:db/changelog/db.changelog.yml
-    user: ${LB_USER}
-    password: ${LB_PASS}
 
 management:
   endpoints:
     web:
       exposure:
         include: '*'
-  prometheus:
-    metrics:
-      export:
-        enabled: true
-  metrics:
-    distribution:
-      percentiles-histogram:
-        "[http.server.requests]": true
-    tags:
-      application: ${spring.application.name}
-  info:
-    git:
-      mode: full
 
 server:
   port: ${SERVER_PORT}
   servlet:
     context-path: /${spring.application.name}
-  error:
-    whitelabel:
-      enabled: false
-
-logging:
-  level:
-    root: info
-    sql: info
-    web: info
-    com.book.store: debug

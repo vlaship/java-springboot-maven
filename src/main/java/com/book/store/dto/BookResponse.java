@@ -1,15 +1,15 @@
 package com.book.store.dto;
 
+import lombok.Data;
+
 import java.util.List;
-import lombok.Builder;
+import java.util.UUID;
 
-@Builder
-public record BookResponse(
-    Long id,
-    String title,
-    String isbn,
-    Long authorId,
-    List<Long> storeIds
-) {
-
+@Data
+public class BookResponse {
+    private final UUID id;
+    private final String title;
+    private final String isbn;
+    private final UUID authorId;
+    private final List<UUID> storeIds;
 }

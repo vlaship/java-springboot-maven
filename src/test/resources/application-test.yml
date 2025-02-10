@@ -1,11 +1,8 @@
-DB_HOST: 127.0.0.1
-DB_PORT: 5432
-DB_NAME: test
-DB_USER: test
-DB_PASS: test
-DB_SCHEMA: test
+SERVER_PORT: 12345
 
-SERVER_PORT: 18888
-
-LB_USER: test
-LB_PASS: test
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver

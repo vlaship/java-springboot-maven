@@ -12,19 +12,19 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
-    componentModel = MappingConstants.ComponentModel.SPRING,
-    unmappedTargetPolicy = ReportingPolicy.WARN,
-    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+        componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.WARN,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 public interface StoreMapper {
 
-  StoreResponse map(Store entity);
+    StoreResponse map(Store entity);
 
-  Store map(StoreResponse dto);
+    Store map(StoreResponse dto);
 
-  @Mapping(target = "id", ignore = true)
-  Store map(CreateStoreRequest dto);
+    @Mapping(target = "id", ignore = true)
+    Store map(CreateStoreRequest dto);
 
-  @Mapping(target = "id", ignore = true)
-  void merge(@MappingTarget Store entity, UpdateStoreRequest dto);
+    @Mapping(target = "id", ignore = true)
+    void merge(@MappingTarget Store entity, UpdateStoreRequest dto);
 }

@@ -1,15 +1,12 @@
 package com.book.store.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
+import lombok.Data;
 
-@Builder
-public record CreateStoreRequest(
-    @NotBlank @Size(min = 2, max = 50)
-    String name,
-    @NotBlank @Size(min = 2, max = 50)
-    String address
-) {
-
+@Data
+public class CreateStoreRequest {
+    @Size(min = 2, max = 50)
+    private final String name;
+    @Size(min = 2, max = 50)
+    private final String address;
 }

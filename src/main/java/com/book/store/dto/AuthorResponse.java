@@ -1,8 +1,11 @@
 package com.book.store.dto;
 
-import lombok.Builder;
+import lombok.Data;
 
-@Builder
-public record AuthorResponse(Long id, String name) {
+import java.util.UUID;
 
+@Data
+public class AuthorResponse {
+    private final UUID id;
+    private final String name;
 }

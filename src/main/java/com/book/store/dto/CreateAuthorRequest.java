@@ -1,11 +1,10 @@
 package com.book.store.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
-public record CreateAuthorRequest(
-    @NotBlank @Size(min = 2, max = 50)
-    String name
-) {
-
+@Data
+public class CreateAuthorRequest {
+    @Size(min = 2, max = 50)
+    private final String name;
 }
