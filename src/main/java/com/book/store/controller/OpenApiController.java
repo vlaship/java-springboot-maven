@@ -1,4 +1,4 @@
-package io.github.vlaship.book.catalog.controller;
+package com.book.store.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
