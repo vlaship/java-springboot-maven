@@ -11,7 +11,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: NUMERIC
+                  type: UUID
               - column:
                   name: name
                   type: STRING
@@ -28,7 +28,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: NUMERIC
+                  type: UUID
               - column:
                   name: title
                   type: STRING
@@ -36,8 +36,11 @@ databaseChangeLog:
                   name: isbn
                   type: STRING
               - column:
+                  name: type
+                  type: STRING
+              - column:
                   name: author_id
-                  type: NUMERIC
+                  type: UUID
 
   - changeSet:
       id: 1738554141605_03
@@ -51,7 +54,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: NUMERIC
+                  type: UUID
               - column:
                   name: name
                   type: STRING
@@ -71,7 +74,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: book_id
-                  type: NUMERIC
+                  type: UUID
               - column:
                   name: store_id
-                  type: NUMERIC
+                  type: UUID

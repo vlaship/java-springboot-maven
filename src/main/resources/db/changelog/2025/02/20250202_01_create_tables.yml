@@ -12,8 +12,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigint
-                  autoIncrement: true
+                  type: uuid
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -37,8 +36,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigint
-                  autoIncrement: true
+                  type: uuid
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -54,8 +52,13 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
+                  name: type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
                   name: author_id
-                  type: bigint
+                  type: uuid
                   constraints:
                     nullable: false
         - addForeignKeyConstraint:
@@ -80,8 +83,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigint
-                  autoIncrement: true
+                  type: uuid
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -110,12 +112,12 @@ databaseChangeLog:
             columns:
               - column:
                   name: book_id
-                  type: bigint
+                  type: uuid
                   constraints:
                     nullable: false
               - column:
                   name: store_id
-                  type: bigint
+                  type: uuid
                   constraints:
                     nullable: false
         - addPrimaryKey:
