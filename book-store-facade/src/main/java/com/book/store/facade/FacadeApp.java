@@ -1,11 +1,11 @@
-package com.book.store.data;
+package com.book.store.facade;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class App {
+public class FacadeApp {
 	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
+		SpringApplication.run(FacadeApp.class, args);
 	}
 }

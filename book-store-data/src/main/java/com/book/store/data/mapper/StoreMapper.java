@@ -16,13 +16,9 @@ public class StoreMapper {
             return null;
         }
 
-        UUID id = null;
-        String name = null;
-        String address = null;
-
-        id = entity.getId();
-        name = entity.getName();
-        address = entity.getAddress();
+        UUID id = entity.getId();
+        String name = entity.getName();
+        String address = entity.getAddress();
 
         return new StoreResponse(id, name, address);
     }
@@ -33,10 +29,8 @@ public class StoreMapper {
         }
 
         Store store = new Store();
-
         store.setName(dto.getName());
         store.setAddress(dto.getAddress());
-
         store.setId(java.util.UUID.randomUUID());
 
         return store;

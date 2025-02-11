@@ -28,9 +28,7 @@ public class AuthorMapper {
         }
 
         Author author = new Author();
-
         author.setName(dto.getName());
-
         author.setId(java.util.UUID.randomUUID());
 
         return author;
