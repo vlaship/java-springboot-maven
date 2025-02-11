@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,8 +29,8 @@ public class StoreService {
 
     public StoreFacadeResponse create(CreateStoreFacadeRequest request) {
         log.debug("create({})", request);
-        var req = mapper.map(request);
-        var resp = restTemplate.exchange(
+        CreateStoreDataRequest req = mapper.map(request);
+        ResponseEntity<StoreDataResponse> resp = restTemplate.exchange(
                 bookUrl,
                 HttpMethod.POST,
                 new HttpEntity<>(req),
@@ -40,8 +41,8 @@ public class StoreService {
 
     public StoreFacadeResponse update(UUID id, UpdateStoreFacadeRequest request) {
         log.debug("update({},{})", id, request);
-        var req = mapper.map(request);
-        var resp = restTemplate.exchange(
+        UpdateStoreDataRequest req = mapper.map(request);
+        ResponseEntity<StoreDataResponse> resp = restTemplate.exchange(
                 bookUrl + "/" + id.toString(),
                 HttpMethod.PATCH,
                 new HttpEntity<>(req),
@@ -57,7 +58,7 @@ public class StoreService {
 
     public List<StoreFacadeResponse> findAll() {
         log.debug("findAll()");
-        var resp = restTemplate.exchange(
+        ResponseEntity<List<StoreDataResponse>> resp = restTemplate.exchange(
                 bookUrl,
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
@@ -69,7 +70,7 @@ public class StoreService {
 
     public StoreFacadeResponse findById(UUID id) {
         log.debug("findById({})", id);
-        var resp = restTemplate.exchange(
+        ResponseEntity<StoreDataResponse> resp = restTemplate.exchange(
                 bookUrl + "/" + id.toString(),
                 HttpMethod.GET,
                 HttpEntity.EMPTY,

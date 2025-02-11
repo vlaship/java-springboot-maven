@@ -4,7 +4,8 @@ import com.book.store.facade.model.StoreFacadeResponse;
 import com.book.store.facade.model.CreateStoreFacadeRequest;
 import com.book.store.facade.model.UpdateStoreFacadeRequest;
 import com.book.store.facade.service.StoreService;
-import jakarta.validation.constraints.NotNull;
+
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,19 +32,19 @@ public class StoreController {
 
     @GetMapping("/{id}")
     public ResponseEntity<StoreFacadeResponse> getStoreById(@NotNull @PathVariable("id") UUID id) {
-        var body = service.findById(id);
+        StoreFacadeResponse body = service.findById(id);
         return ResponseEntity.ok(body);
     }
 
     @GetMapping
     public ResponseEntity<List<StoreFacadeResponse>> getStores() {
-        var body = service.findAll();
+        List<StoreFacadeResponse> body = service.findAll();
         return ResponseEntity.ok(body);
     }
 
     @PostMapping
     public ResponseEntity<StoreFacadeResponse> create(@NotNull @RequestBody CreateStoreFacadeRequest request) {
-        var bookResponse = service.create(request);
+        StoreFacadeResponse bookResponse = service.create(request);
         return ResponseEntity.ok(bookResponse);
     }
 
@@ -52,7 +53,7 @@ public class StoreController {
             @NotNull @PathVariable("id") UUID id,
             @NotNull @RequestBody UpdateStoreFacadeRequest request
     ) {
-        var bookResponse = service.update(id, request);
+        StoreFacadeResponse bookResponse = service.update(id, request);
         return ResponseEntity.ok(bookResponse);
     }
 

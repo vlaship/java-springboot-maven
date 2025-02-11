@@ -1,8 +1,8 @@
 package com.book.store.data.exception;
 
+import com.book.store.data.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    ResponseEntity<ProblemDetail> notFound(NotFoundException ex) {
+    ResponseEntity<ErrorResponse> notFound(NotFoundException ex) {
         log.error("Not Found {} ID: {}", ex.getType(), ex.getId());
-        var details = "Not Found %s ID: %s".formatted(ex.getType(), ex.getId().toString());
+        String details = String.format("Not Found %s ID: %s", ex.getType(), ex.getId().toString());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, details));
+                .body(ErrorResponse.builder().status(HttpStatus.NOT_FOUND).details(details).build());
     }
 
     @ExceptionHandler(Exception.class)
-    ResponseEntity<ProblemDetail> handle(Exception ex) {
+    ResponseEntity<ErrorResponse> handle(Exception ex) {
         log.error("error: {}", ex.getMessage());
         return ResponseEntity
                 .internalServerError()
-                .body(ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage()));
+                .body(ErrorResponse.builder().status(HttpStatus.INTERNAL_SERVER_ERROR).details(ex.getMessage()).build());
     }
 }

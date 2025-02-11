@@ -5,12 +5,10 @@ import com.book.store.data.entity.Book;
 import java.util.List;
 import java.util.UUID;
 
-import org.jspecify.annotations.NonNull;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface BookRepository extends CrudRepository<Book, UUID> {
+public interface BookRepository extends JpaRepository<Book, UUID> {
 
-    @NonNull
-    List<Book> findByAuthorId(@NonNull @Param("authorId") UUID authorId);
+    List<Book> findAllByAuthorId(@Param("authorId") UUID authorId);
 }

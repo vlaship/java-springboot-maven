@@ -4,7 +4,8 @@ import com.book.store.data.dto.StoreResponse;
 import com.book.store.data.dto.CreateStoreRequest;
 import com.book.store.data.dto.UpdateStoreRequest;
 import com.book.store.data.service.StoreService;
-import jakarta.validation.constraints.NotNull;
+
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,19 +32,19 @@ public class StoreController {
 
     @GetMapping("/{id}")
     public ResponseEntity<StoreResponse> getStoreById(@NotNull @PathVariable("id") UUID id) {
-        var body = service.findById(id);
+        StoreResponse body = service.findById(id);
         return ResponseEntity.ok(body);
     }
 
     @GetMapping
     public ResponseEntity<List<StoreResponse>> getStores() {
-        var body = service.findAll();
+        List<StoreResponse> body = service.findAll();
         return ResponseEntity.ok(body);
     }
 
     @PostMapping
     public ResponseEntity<StoreResponse> create(@NotNull @RequestBody CreateStoreRequest request) {
-        var bookResponse = service.create(request);
+        StoreResponse bookResponse = service.create(request);
         return ResponseEntity.ok(bookResponse);
     }
 
@@ -52,7 +53,7 @@ public class StoreController {
             @NotNull @PathVariable("id") UUID id,
             @NotNull @RequestBody UpdateStoreRequest request
     ) {
-        var bookResponse = service.update(id, request);
+        StoreResponse bookResponse = service.update(id, request);
         return ResponseEntity.ok(bookResponse);
     }
 

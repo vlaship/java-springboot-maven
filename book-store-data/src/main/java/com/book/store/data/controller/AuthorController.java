@@ -4,7 +4,8 @@ import com.book.store.data.dto.AuthorResponse;
 import com.book.store.data.dto.CreateAuthorRequest;
 import com.book.store.data.dto.UpdateAuthorRequest;
 import com.book.store.data.service.AuthorService;
-import jakarta.validation.constraints.NotNull;
+
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,19 +32,19 @@ public class AuthorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AuthorResponse> getAuthorById(@NotNull @PathVariable("id") UUID id) {
-        var body = service.findById(id);
+        AuthorResponse body = service.findById(id);
         return ResponseEntity.ok(body);
     }
 
     @GetMapping
     public ResponseEntity<List<AuthorResponse>> getAuthors() {
-        var body = service.findAll();
+        List<AuthorResponse> body = service.findAll();
         return ResponseEntity.ok(body);
     }
 
     @PostMapping
     public ResponseEntity<AuthorResponse> create(@NotNull @RequestBody CreateAuthorRequest request) {
-        var bookResponse = service.create(request);
+        AuthorResponse bookResponse = service.create(request);
         return ResponseEntity.ok(bookResponse);
     }
 
@@ -52,7 +53,7 @@ public class AuthorController {
             @NotNull @PathVariable("id") UUID id,
             @NotNull @RequestBody UpdateAuthorRequest request
     ) {
-        var bookResponse = service.update(id, request);
+        AuthorResponse bookResponse = service.update(id, request);
         return ResponseEntity.ok(bookResponse);
     }
 

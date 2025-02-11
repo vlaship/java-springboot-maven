@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Data
 public class StoreDataResponse {
-    private final UUID id;
-    private final String name;
-    private final String address;
+    private UUID id;
+    private String name;
+    private String address;
 }

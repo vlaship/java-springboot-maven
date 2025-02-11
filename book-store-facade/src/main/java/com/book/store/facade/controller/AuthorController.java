@@ -4,7 +4,7 @@ import com.book.store.facade.model.AuthorFacadeResponse;
 import com.book.store.facade.model.CreateAuthorFacadeRequest;
 import com.book.store.facade.model.UpdateAuthorFacadeRequest;
 import com.book.store.facade.service.AuthorService;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,19 +31,19 @@ public class AuthorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AuthorFacadeResponse> getAuthorById(@NotNull @PathVariable("id") UUID id) {
-        var body = service.findById(id);
+        AuthorFacadeResponse body = service.findById(id);
         return ResponseEntity.ok(body);
     }
 
     @GetMapping
     public ResponseEntity<List<AuthorFacadeResponse>> getAuthors() {
-        var body = service.findAll();
+        List<AuthorFacadeResponse> body = service.findAll();
         return ResponseEntity.ok(body);
     }
 
     @PostMapping
     public ResponseEntity<AuthorFacadeResponse> create(@NotNull @RequestBody CreateAuthorFacadeRequest request) {
-        var bookResponse = service.create(request);
+        AuthorFacadeResponse bookResponse = service.create(request);
         return ResponseEntity.ok(bookResponse);
     }
 
@@ -52,7 +52,7 @@ public class AuthorController {
             @NotNull @PathVariable("id") UUID id,
             @NotNull @RequestBody UpdateAuthorFacadeRequest request
     ) {
-        var bookResponse = service.update(id, request);
+        AuthorFacadeResponse bookResponse = service.update(id, request);
         return ResponseEntity.ok(bookResponse);
     }
 

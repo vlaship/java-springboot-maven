@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,8 +29,8 @@ public class BookService {
 
     public BookFacadeResponse create(CreateBookFacadeRequest request) {
         log.debug("create({})", request);
-        var req = mapper.map(request);
-        var resp = restTemplate.exchange(
+        CreateBookDataRequest req = mapper.map(request);
+        ResponseEntity<BookDataResponse> resp = restTemplate.exchange(
                 bookUrl,
                 HttpMethod.POST,
                 new HttpEntity<>(req),
@@ -40,8 +41,8 @@ public class BookService {
 
     public BookFacadeResponse update(UUID id, UpdateBookFacadeRequest request) {
         log.debug("update({},{})", id, request);
-        var req = mapper.map(request);
-        var resp = restTemplate.exchange(
+        UpdateBookDataRequest req = mapper.map(request);
+        ResponseEntity<BookDataResponse> resp = restTemplate.exchange(
                 bookUrl + "/" + id.toString(),
                 HttpMethod.PATCH,
                 new HttpEntity<>(req),
@@ -57,7 +58,7 @@ public class BookService {
 
     public BookFacadeResponse findById(UUID id) {
         log.debug("findById({})", id);
-        var resp = restTemplate.exchange(
+        ResponseEntity<BookDataResponse> resp = restTemplate.exchange(
                 bookUrl + "/" + id.toString(),
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
@@ -68,19 +69,8 @@ public class BookService {
 
     public List<BookFacadeResponse> findBooksByAuthorId(UUID authorId) {
         log.debug("findBooksByAuthorId({})", authorId);
-        var resp = restTemplate.exchange(
+        ResponseEntity<List<BookDataResponse>> resp = restTemplate.exchange(
                 bookUrl + "/author/" + authorId.toString(),
-                HttpMethod.GET,
-                HttpEntity.EMPTY,
-                new ParameterizedTypeReference<List<BookDataResponse>>() {
-                });
-        return mapper.map(resp.getBody());
-    }
-
-    public List<BookFacadeResponse> findBooksByStoreId(UUID storeId) {
-        log.debug("findBooksByStoreId({})", storeId);
-        var resp = restTemplate.exchange(
-                bookUrl + "/book/" + storeId.toString(),
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
                 new ParameterizedTypeReference<List<BookDataResponse>>() {

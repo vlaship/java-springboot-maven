@@ -4,28 +4,45 @@ import com.book.store.data.dto.AuthorResponse;
 import com.book.store.data.dto.CreateAuthorRequest;
 import com.book.store.data.dto.UpdateAuthorRequest;
 import com.book.store.data.entity.Author;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Component;
 
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.WARN,
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
-)
-public interface AuthorMapper {
+import java.util.UUID;
 
-    AuthorResponse map(Author entity);
+@Component
+public class AuthorMapper {
 
-    Author map(AuthorResponse dto);
+    public AuthorResponse map(Author entity) {
+        if (entity == null) {
+            return null;
+        }
 
-    @Mapping(target = "id", expression = "java(java.util.UUID.randomUUID())")
-    Author map(CreateAuthorRequest dto);
+        UUID id = entity.getId();
+        String name = entity.getName();
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "name", source = "name")
-    void merge(@MappingTarget Author entity, UpdateAuthorRequest dto);
+        return new AuthorResponse(id, name);
+    }
+
+    public Author map(CreateAuthorRequest dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Author author = new Author();
+
+        author.setName(dto.getName());
+
+        author.setId(java.util.UUID.randomUUID());
+
+        return author;
+    }
+
+    public void merge(Author entity, UpdateAuthorRequest dto) {
+        if (dto == null) {
+            return;
+        }
+
+        if (dto.getName() != null) {
+            entity.setName(dto.getName());
+        }
+    }
 }

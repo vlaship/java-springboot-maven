@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:8-jre-alpine
 WORKDIR /app
 COPY target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

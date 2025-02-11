@@ -4,27 +4,54 @@ import com.book.store.data.dto.CreateStoreRequest;
 import com.book.store.data.dto.StoreResponse;
 import com.book.store.data.dto.UpdateStoreRequest;
 import com.book.store.data.entity.Store;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Component;
 
-@Mapper(
-        componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.WARN,
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
-)
-public interface StoreMapper {
+import java.util.UUID;
 
-    StoreResponse map(Store entity);
+@Component
+public class StoreMapper {
 
-    Store map(StoreResponse dto);
+    public StoreResponse map(Store entity) {
+        if (entity == null) {
+            return null;
+        }
 
-    @Mapping(target = "id", expression = "java(java.util.UUID.randomUUID())")
-    Store map(CreateStoreRequest dto);
+        UUID id = null;
+        String name = null;
+        String address = null;
 
-    @Mapping(target = "id", ignore = true)
-    void merge(@MappingTarget Store entity, UpdateStoreRequest dto);
+        id = entity.getId();
+        name = entity.getName();
+        address = entity.getAddress();
+
+        return new StoreResponse(id, name, address);
+    }
+
+    public Store map(CreateStoreRequest dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Store store = new Store();
+
+        store.setName(dto.getName());
+        store.setAddress(dto.getAddress());
+
+        store.setId(java.util.UUID.randomUUID());
+
+        return store;
+    }
+
+    public void merge(Store entity, UpdateStoreRequest dto) {
+        if (dto == null) {
+            return;
+        }
+
+        if (dto.getName() != null) {
+            entity.setName(dto.getName());
+        }
+        if (dto.getAddress() != null) {
+            entity.setAddress(dto.getAddress());
+        }
+    }
 }

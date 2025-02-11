@@ -1,10 +1,11 @@
 package com.book.store.data.dto;
 
 import com.book.store.data.entity.BookType;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -15,4 +16,5 @@ public class UpdateBookRequest {
     private final String isbn;
     private final BookType type;
     private final UUID authorId;
+    private final List<UUID> storeIds;
 }

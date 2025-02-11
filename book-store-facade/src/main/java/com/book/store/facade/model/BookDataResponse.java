@@ -7,10 +7,10 @@ import java.util.UUID;
 
 @Data
 public class BookDataResponse {
-    private final UUID id;
-    private final String title;
-    private final String isbn;
-    private final BookType type;
-    private final UUID authorId;
-    private final List<UUID> storeIds;
+    private UUID id;
+    private String title;
+    private String isbn;
+    private BookType type;
+    private UUID authorId;
+    private List<UUID> storeIds;
 }

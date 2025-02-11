@@ -4,7 +4,8 @@ import com.book.store.facade.model.BookFacadeResponse;
 import com.book.store.facade.model.CreateBookFacadeRequest;
 import com.book.store.facade.model.UpdateBookFacadeRequest;
 import com.book.store.facade.service.BookService;
-import jakarta.validation.constraints.NotNull;
+
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +32,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BookFacadeResponse> findBookById(@NotNull @PathVariable("id") UUID id) {
-        var body = service.findById(id);
+        BookFacadeResponse body = service.findById(id);
         return ResponseEntity.ok(body);
     }
 
@@ -39,21 +40,13 @@ public class BookController {
     public ResponseEntity<List<BookFacadeResponse>> findBooksByAuthorId(
             @NotNull @PathVariable("authorId") UUID authorId
     ) {
-        var body = service.findBooksByAuthorId(authorId);
-        return ResponseEntity.ok(body);
-    }
-
-    @GetMapping("/store/{storeId}")
-    public ResponseEntity<List<BookFacadeResponse>> findBooksByStoreId(
-            @NotNull @PathVariable("storeId") UUID storeId
-    ) {
-        var body = service.findBooksByStoreId(storeId);
+        List<BookFacadeResponse> body = service.findBooksByAuthorId(authorId);
         return ResponseEntity.ok(body);
     }
 
     @PostMapping
     public ResponseEntity<BookFacadeResponse> create(@NotNull @RequestBody CreateBookFacadeRequest request) {
-        var bookResponse = service.create(request);
+        BookFacadeResponse bookResponse = service.create(request);
         return ResponseEntity.ok(bookResponse);
     }
 
@@ -62,7 +55,7 @@ public class BookController {
             @NotNull @PathVariable("id") UUID id,
             @NotNull @RequestBody UpdateBookFacadeRequest request
     ) {
-        var bookResponse = service.update(id, request);
+        BookFacadeResponse bookResponse = service.update(id, request);
         return ResponseEntity.ok(bookResponse);
     }
 

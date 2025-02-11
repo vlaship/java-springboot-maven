@@ -1,13 +1,15 @@
 package com.book.store.data.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.UUID;
 
 @Data
-@Table("authors")
+@Entity
+@Table(name = "authors")
 public class Author {
 
   @Id

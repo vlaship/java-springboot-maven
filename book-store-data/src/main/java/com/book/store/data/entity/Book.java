@@ -1,19 +1,33 @@
 package com.book.store.data.entity;
 
+import javax.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
-@Table("books")
+@Entity
+@Table(name = "books")
 public class Book {
 
     @Id
     private UUID id;
+
     private String title;
     private String isbn;
+
+    @Enumerated(EnumType.STRING)
     private BookType type;
-    private UUID authorId;
+
+    @ManyToOne
+    private Author author;
+
+    @ManyToMany
+    @JoinTable(
+            name = "books_stores",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "store_id")
+    )
+    private List<Store> stores;
 }

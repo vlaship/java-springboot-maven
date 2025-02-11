@@ -1,6 +1,6 @@
 package com.book.store.data.dto;
 
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data

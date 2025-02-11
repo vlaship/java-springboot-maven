@@ -1,6 +1,6 @@
 package com.book.store.facade.model;
 
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
 

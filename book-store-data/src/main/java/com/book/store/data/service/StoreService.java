@@ -3,13 +3,14 @@ package com.book.store.data.service;
 import com.book.store.data.dto.StoreResponse;
 import com.book.store.data.dto.CreateStoreRequest;
 import com.book.store.data.dto.UpdateStoreRequest;
+import com.book.store.data.entity.Store;
 import com.book.store.data.exception.NotFoundException;
 import com.book.store.data.mapper.StoreMapper;
 import com.book.store.data.repository.StoreRepository;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.StreamSupport;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,17 +28,17 @@ public class StoreService {
 
     public StoreResponse create(CreateStoreRequest dto) {
         log.debug("create({})", dto);
-        var author = mapper.map(dto);
-        var saved = repository.save(author);
+        Store store = mapper.map(dto);
+        Store saved = repository.save(store);
         return mapper.map(saved);
     }
 
     public StoreResponse update(UUID id, UpdateStoreRequest dto) {
         log.debug("update({},{})", id, dto);
-        var author = repository.findById(id)
+        Store store = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("store", id));
-        mapper.merge(author, dto);
-        var saved = repository.save(author);
+        mapper.merge(store, dto);
+        Store saved = repository.save(store);
         return mapper.map(saved);
     }
 
@@ -48,16 +49,16 @@ public class StoreService {
 
     public List<StoreResponse> findAll() {
         log.debug("findAll()");
-        return StreamSupport
-                .stream(repository.findAll().spliterator(), false)
+        return repository.findAll()
+                .stream()
                 .map(mapper::map)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public StoreResponse findById(UUID id) {
         log.debug("findById({})", id);
-        var author = repository.findById(id)
+        Store store = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("store", id));
-        return mapper.map(author);
+        return mapper.map(store);
     }
 }
