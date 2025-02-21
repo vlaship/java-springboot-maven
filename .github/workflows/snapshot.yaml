@@ -87,6 +87,8 @@ jobs:
 
       - name: Move JAR files to /app
         run: |
+          mkdir ./book-store-data/target
+          mkdir ./book-store-facade/target
           mv book-store-data.jar ./book-store-data/target/data-app.jar
           mv book-store-facade.jar ./book-store-facade/target/facade-app.jar
 
