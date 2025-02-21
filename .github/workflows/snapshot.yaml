@@ -92,8 +92,8 @@ jobs:
 
       - name: Move JAR files to target directories
         run: |
-          mv book-store-data-jar app/book-store-data/target/data-app.jar
-          mv book-store-facade-jar app/book-store-facade/target/facade-app.jar
+          mv book-store-data-jar book-store-data/target/data-app.jar
+          mv book-store-facade-jar book-store-facade/target/facade-app.jar
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
