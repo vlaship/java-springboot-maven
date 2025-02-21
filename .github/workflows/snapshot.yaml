@@ -27,8 +27,11 @@ jobs:
           cache: maven
           cache-dependency-path: '**/pom.xml'
 
-      - name: Verify
-        run: mvn -B clean verify --file pom.xml
+      - name: Verify book-store-data
+        run: mvn -B clean verify --file book-store-data/pom.xml
+
+      - name: Verify book-store-facade
+        run: mvn -B clean verify --file book-store-facade/pom.xml
 
   maven-build:
     needs: maven-verify
@@ -45,14 +48,23 @@ jobs:
           cache: maven
           cache-dependency-path: '**/pom.xml'
 
-      - name: Build
-        run: mvn -B package --file pom.xml
+      - name: Build book-store-data
+        run: mvn -B package --file book-store-data/pom.xml
 
-      - name: Upload artifact
+      - name: Build book-store-facade
+        run: mvn -B package --file book-store-facade/pom.xml
+
+      - name: Upload book-store-data JAR
         uses: actions/upload-artifact@v4
         with:
-          name: app.jar
-          path: target/*.jar
+          name: book-store-data.jar
+          path: book-store-data/target/*.jar
+
+      - name: Upload book-store-facade JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: book-store-facade.jar
+          path: book-store-facade/target/*.jar
 
   docker-build-push:
     needs: maven-build
@@ -63,11 +75,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download artifact
+      - name: Download book-store-data JAR
         uses: actions/download-artifact@v4
         with:
-          name: app.jar
-          path: target
+          name: book-store-data.jar
+
+      - name: Download book-store-facade JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: book-store-facade.jar
+
+      - name: Move JAR files to /app
+        run: |
+          mkdir -p /app
+          mv book-store-data.jar ./book-store-data/target/data-app.jar
+          mv book-store-facade.jar ./book-store-facade/target/facade-app.jar
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -82,9 +104,16 @@ jobs:
       - name: Get Version
         run: echo "CURRENT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
-      - name: Build Docker image
+      - name: Build Docker image for book-store-data
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: book-store-data
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ env.CURRENT_VERSION }}-${{ github.run_id }}
+          tags: ghcr.io/${{ github.repository_owner }}/book-store-data:${{ env.CURRENT_VERSION }}-${{ github.run_id }}
+
+      - name: Build Docker image for book-store-facade
+        uses: docker/build-push-action@v6
+        with:
+          context: book-store-facade
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/book-store-facade:${{ env.CURRENT_VERSION }}-${{ github.run_id }}
