@@ -2,25 +2,71 @@ package com.book.store.facade.mapper;
 
 import com.book.store.facade.model.*;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants.ComponentModel;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-@Mapper(
-        componentModel = ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.WARN,
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
-)
-public interface BookMapper {
+@Component
+public class BookMapper {
 
-    BookFacadeResponse map(BookDataResponse data);
+    public BookFacadeResponse map(BookDataResponse data) {
+        if (data == null) {
+            return null;
+        }
 
-    List<BookFacadeResponse> map(List<BookDataResponse> data);
+        List<UUID> storeIds = null;
 
-    CreateBookDataRequest map(CreateBookFacadeRequest facade);
+        List<UUID> list = data.getStoreIds();
+        if (list != null) {
+            storeIds = new ArrayList<>(list);
+        }
+        UUID id = data.getId();
+        String title = data.getTitle();
+        String isbn = data.getIsbn();
+        BookType type = data.getType();
+        UUID authorId = data.getAuthorId();
 
-    UpdateBookDataRequest map(UpdateBookFacadeRequest facade);
+        return new BookFacadeResponse(id, title, isbn, type, authorId, storeIds);
+    }
+
+    public List<BookFacadeResponse> map(List<BookDataResponse> data) {
+        if (data == null) {
+            return null;
+        }
+
+        List<BookFacadeResponse> list = new ArrayList<>(data.size());
+        for (BookDataResponse bookDataResponse : data) {
+            list.add(map(bookDataResponse));
+        }
+
+        return list;
+    }
+
+    public CreateBookDataRequest map(CreateBookFacadeRequest facade) {
+        if (facade == null) {
+            return null;
+        }
+
+        String title = facade.getTitle();
+        String isbn = facade.getIsbn();
+        UUID authorId = facade.getAuthorId();
+        BookType type = facade.getType();
+
+        return new CreateBookDataRequest(title, isbn, authorId, type);
+    }
+
+    public UpdateBookDataRequest map(UpdateBookFacadeRequest facade) {
+        if (facade == null) {
+            return null;
+        }
+
+        String title = facade.getTitle();
+        String isbn = facade.getIsbn();
+        BookType type = facade.getType();
+        UUID authorId = facade.getAuthorId();
+
+        return new UpdateBookDataRequest(title, isbn, type, authorId);
+    }
 }
