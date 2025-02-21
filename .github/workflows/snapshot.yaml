@@ -57,13 +57,13 @@ jobs:
       - name: Upload book-store-data JAR
         uses: actions/upload-artifact@v4
         with:
-          name: book-store-data-jar
+          name: book-store-data.jar
           path: book-store-data/target/*.jar
 
       - name: Upload book-store-facade JAR
         uses: actions/upload-artifact@v4
         with:
-          name: book-store-facade-jar
+          name: book-store-facade.jar
           path: book-store-facade/target/*.jar
 
   docker-build-push:
