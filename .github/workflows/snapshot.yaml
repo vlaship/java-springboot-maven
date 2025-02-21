@@ -79,21 +79,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: book-store-data-jar
+          path: book-store-data/target
 
       - name: Download book-store-facade JAR
         uses: actions/download-artifact@v4
         with:
           name: book-store-facade-jar
-
-      - name: Create target directories
-        run: |
-          mkdir -p book-store-data/target
-          mkdir -p book-store-facade/target
-
-      - name: Move JAR files to target directories
-        run: |
-          mv book-store-data-jar book-store-data/target/data-app.jar
-          mv book-store-facade-jar book-store-facade/target/facade-app.jar
+          path: book-store-facade/target
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
