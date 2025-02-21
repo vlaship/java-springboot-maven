@@ -57,13 +57,13 @@ jobs:
       - name: Upload book-store-data JAR
         uses: actions/upload-artifact@v4
         with:
-          name: book-store-data.jar
+          name: book-store-data-jar
           path: book-store-data/target/*.jar
 
       - name: Upload book-store-facade JAR
         uses: actions/upload-artifact@v4
         with:
-          name: book-store-facade.jar
+          name: book-store-facade-jar
           path: book-store-facade/target/*.jar
 
   docker-build-push:
@@ -78,19 +78,22 @@ jobs:
       - name: Download book-store-data JAR
         uses: actions/download-artifact@v4
         with:
-          name: book-store-data.jar
+          name: book-store-data-jar
 
       - name: Download book-store-facade JAR
         uses: actions/download-artifact@v4
         with:
-          name: book-store-facade.jar
+          name: book-store-facade-jar
 
-      - name: Move JAR files to /app
+      - name: Create target directories
         run: |
-          mkdir ./book-store-data/target
-          mkdir ./book-store-facade/target
-          mv ./book-store-data.jar ./book-store-data/target/data-app.jar
-          mv ./book-store-facade.jar ./book-store-facade/target/facade-app.jar
+          mkdir -p book-store-data/target
+          mkdir -p book-store-facade/target
+
+      - name: Move JAR files to target directories
+        run: |
+          mv book-store-data-jar app/book-store-data/target/data-app.jar
+          mv book-store-facade-jar app/book-store-facade/target/facade-app.jar
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
