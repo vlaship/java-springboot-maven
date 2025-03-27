@@ -33,7 +33,7 @@ public class BookMapper {
         }
 
         List<UUID> storeIds = storesToIds(entity.getStores());
-        UUID authorId = entity.getAuthor().getId();
+        UUID authorId = entity.getAuthor() != null ? entity.getAuthor().getId() : null;
         UUID id = entity.getId();
         String title = entity.getTitle();
         String isbn = entity.getIsbn();
@@ -62,8 +62,16 @@ public class BookMapper {
 
         Book book = new Book();
 
-        book.setStores(findStoreByIds(dto.getStoreIds()));
-        book.setAuthor(findAuthorById(dto.getAuthorId()));
+        List<Store> stores = findStoreByIds(dto.getStoreIds());
+        if (stores != null) {
+            book.setStores(stores);
+        }
+
+        Author author = findAuthorById(dto.getAuthorId());
+        if (author != null) {
+            book.setAuthor(author);
+        }
+
         book.setTitle(dto.getTitle());
         book.setIsbn(dto.getIsbn());
         book.setType(dto.getType());

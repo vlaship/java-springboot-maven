@@ -60,7 +60,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponse> findBooksByAuthorId(UUID authorId) {
         log.debug("findBooksByAuthorId({})", authorId);
-        List<Book> books = repository.findAllByAuthorId(authorId);
-        return mapper.map(books);
+        List<Book> allBooks = repository.findAll();
+        List<Book> booksByAuthor = allBooks.stream()
+            .filter(b -> b.getAuthor() != null && b.getAuthor().getId().equals(authorId))
+            .collect(java.util.stream.Collectors.toList());
+        return mapper.map(booksByAuthor);
     }
 }
