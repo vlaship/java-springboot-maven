@@ -1,13 +1,17 @@
 package com.book.store.facade.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateBookDataRequest {
-    private final String title;
-    private final String isbn;
-    private final UUID authorId;
-    private final BookType type;
+    private String title;
+    private String isbn;
+    private UUID authorId;
+    private BookType type;
 }

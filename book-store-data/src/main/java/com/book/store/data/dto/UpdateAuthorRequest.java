@@ -1,10 +1,15 @@
 package com.book.store.data.dto;
 
 import javax.validation.constraints.Size;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpdateAuthorRequest {
     @Size(min = 2, max = 50)
-    private final String name;
+    private String name;
 }

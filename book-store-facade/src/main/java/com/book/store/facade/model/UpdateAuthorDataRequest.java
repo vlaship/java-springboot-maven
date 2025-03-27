@@ -1,8 +1,12 @@
 package com.book.store.facade.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpdateAuthorDataRequest {
-    private final String name;
+    private String name;
 }
