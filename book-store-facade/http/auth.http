@@ -1,0 +1,22 @@
+@username=admin
+@password=admin_password
+@userId=87bc62c9-113d-479e-9d89-abe053316b3b
+
+### sign up
+POST {{facade-url}}/v1/auth/signup
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "{{password}}",
+  "email": "admin"
+}
+
+### login
+POST {{facade-url}}/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "{{password}}"
+}

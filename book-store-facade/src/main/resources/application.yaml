@@ -14,6 +14,10 @@ server:
     context-path: /${spring.application.name}
 
 data-service:
-  author.url: http://${DATA_URL}:${SERVER_PORT_DATA}/book-store-data-service/v1/author
-  book.url: http://${DATA_URL}:${SERVER_PORT_DATA}/book-store-data-service/v1/book
-  store.url: http://${DATA_URL}:${SERVER_PORT_DATA}/book-store-data-service/v1/store
+  author.url: ${DATA_URL}/book-store-data-service/v1/author
+  book.url: ${DATA_URL}/book-store-data-service/v1/book
+  store.url: ${DATA_URL}/book-store-data-service/v1/store
+  user.url: ${DATA_URL}/book-store-data-service/v1/users
+
+jwt.secret: ${JWT_SECRET}
+jwt.expiration: ${JWT_EXPIRATION_SEC}

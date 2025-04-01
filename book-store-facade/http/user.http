@@ -1,0 +1,41 @@
+@username=admin
+@password=password
+@userId=87bc62c9-113d-479e-9d89-abe053316b3b
+
+### get user by username
+GET {{facade-url}}/v1/users/username/{{username}}
+
+### get user by id
+GET {{facade-url}}/v1/users/{{userId}}
+
+### create user
+POST {{facade-url}}/v1/users
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "{{password}}",
+  "email": "admin",
+  "roles": [
+    "ROLE_ADMIN"
+  ]
+}
+
+### update user
+PUT {{facade-url}}/v1/users/{{userId}}
+Content-Type: application/json
+
+{
+  "username": "admin_updated",
+  "password": "{{password}}",
+  "email": "admin_updated@example.com",
+  "roles": [
+    "ROLE_ADMIN",
+    "ROLE_USER"
+  ]
+}
+
+### delete user
+DELETE {{facade-url}}/v1/users/{{userId}}
+
+###
