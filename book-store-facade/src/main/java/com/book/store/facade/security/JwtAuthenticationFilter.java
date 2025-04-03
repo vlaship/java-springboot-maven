@@ -44,7 +44,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         List<SimpleGrantedAuthority> authorities = new java.util.ArrayList<>();
                         if (roles != null) {
                             for (String role : roles) {
-                                authorities.add(new SimpleGrantedAuthority(role));
+                                // Add ROLE_ prefix for Spring Security's hasRole() method
+                                authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
                             }
                         }
 

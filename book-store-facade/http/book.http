@@ -9,4 +9,14 @@ Authorization: Bearer {{user-jwt}}
 GET {{facade-url}}/v1/book/{{id}}
 Authorization: Bearer {{user-jwt}}
 
-###
+### create book
+POST {{facade-url}}/v1/book/
+Authorization: Bearer {{user-jwt}}
+Content-Type: application/json
+
+{
+  "title": "",
+  "isbn": "",
+  "authorId": "",
+  "type": ""
+}

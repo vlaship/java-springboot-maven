@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,12 +46,14 @@ public class BookController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<BookFacadeResponse> create(@NotNull @RequestBody CreateBookFacadeRequest request) {
         BookFacadeResponse bookResponse = service.create(request);
         return ResponseEntity.ok(bookResponse);
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<BookFacadeResponse> update(
             @NotNull @PathVariable("id") UUID id,
             @NotNull @RequestBody UpdateBookFacadeRequest request
@@ -60,6 +63,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public ResponseEntity<Void> delete(@NotNull @PathVariable("id") UUID id) {
         service.delete(id);
         return ResponseEntity.accepted().build();
