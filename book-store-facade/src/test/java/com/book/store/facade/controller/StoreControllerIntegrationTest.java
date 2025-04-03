@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class StoreControllerAuthorizationTest {
+public class StoreControllerIntegrationTest {
 
     @MockBean
     private StoreService storeService;

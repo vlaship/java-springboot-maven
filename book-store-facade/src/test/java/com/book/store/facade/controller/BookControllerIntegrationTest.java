@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class BookControllerAuthorizationTest {
+public class BookControllerIntegrationTest {
 
     @MockBean
     private BookService bookService;
