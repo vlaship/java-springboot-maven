@@ -6,10 +6,7 @@ import com.book.store.facade.model.UpdateUserFacadeRequest;
 import com.book.store.facade.service.UserService;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
-import java.util.List;
 import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;

@@ -1,0 +1,12 @@
+@id=0194f161-d521-74c4-a666-31cf93585e9c
+@authorId=0194f161-5c42-7958-8915-7cf7496d4b00
+
+### GET books by authorId
+GET {{facade-url}}/v1/book/author/{{authorId}}
+Authorization: Bearer {{jwt}}
+
+### GET book by ID
+GET {{facade-url}}/v1/book/{{id}}
+Authorization: Bearer {{jwt}}
+
+###

@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "username": "admin",
   "password": "{{password}}",
-  "email": "admin"
+  "email": "admin@admin.com"
 }
 
 ### login

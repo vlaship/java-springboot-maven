@@ -3,6 +3,7 @@ package com.book.store.data.service.impl;
 import com.book.store.data.dto.UserRequest;
 import com.book.store.data.dto.UserResponse;
 import com.book.store.data.entity.User;
+import com.book.store.data.exception.AlreadyTakenException;
 import com.book.store.data.exception.NotFoundException;
 import com.book.store.data.exception.NotFoundUserException;
 import com.book.store.data.mapper.UserMapper;
@@ -24,6 +25,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse create(UserRequest userRequest) {
+        if (existsByUsername(userRequest.getUsername())) {
+            throw new AlreadyTakenException("Username is already taken");
+        }
+        if (existsByEmail(userRequest.getEmail())) {
+            throw new AlreadyTakenException("Email is already taken");
+        }
+
         User user = userMapper.map(userRequest);
         User saved = userRepository.save(user);
         return userMapper.map(saved);
@@ -61,13 +69,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.map(user);
     }
 
-    @Override
-    public boolean existsByUsername(String username) {
+    private boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
 
-    @Override
-    public boolean existsByEmail(String email) {
+    private boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 }

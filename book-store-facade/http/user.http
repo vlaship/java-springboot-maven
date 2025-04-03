@@ -4,12 +4,15 @@
 
 ### get user by username
 GET {{facade-url}}/v1/users/username/{{username}}
+Authorization: Bearer {{jwt}}
 
 ### get user by id
 GET {{facade-url}}/v1/users/{{userId}}
+Authorization: Bearer {{jwt}}
 
 ### create user
 POST {{facade-url}}/v1/users
+Authorization: Bearer {{jwt}}
 Content-Type: application/json
 
 {
@@ -23,6 +26,7 @@ Content-Type: application/json
 
 ### update user
 PUT {{facade-url}}/v1/users/{{userId}}
+Authorization: Bearer {{jwt}}
 Content-Type: application/json
 
 {
@@ -37,5 +41,6 @@ Content-Type: application/json
 
 ### delete user
 DELETE {{facade-url}}/v1/users/{{userId}}
+Authorization: Bearer {{jwt}}
 
 ###

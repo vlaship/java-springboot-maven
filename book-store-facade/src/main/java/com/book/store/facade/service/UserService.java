@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -74,16 +77,5 @@ public class UserService {
                 UserDataResponse.class
         );
         return resp.getBody();
-    }
-
-    public boolean existsByUsername(String username) {
-        log.debug("existsByUsername({})", username);
-        ResponseEntity<Boolean> resp = restTemplate.exchange(
-                userUrl + "/exists/" + username,
-                HttpMethod.GET,
-                HttpEntity.EMPTY,
-                Boolean.class
-        );
-        return Boolean.TRUE.equals(resp.getBody());
     }
 }

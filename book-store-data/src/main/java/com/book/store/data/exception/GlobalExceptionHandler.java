@@ -36,6 +36,14 @@ public class GlobalExceptionHandler {
                 .body(ErrorResponse.builder().status(HttpStatus.NOT_FOUND).details(details).build());
     }
 
+    @ExceptionHandler(AlreadyTakenException.class)
+    ResponseEntity<ErrorResponse> alreadyTaken(AlreadyTakenException ex) {
+        log.error("{}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.builder().status(HttpStatus.BAD_REQUEST).details(ex.getMessage()).build());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         String details = ex.getBindingResult()

@@ -1,6 +1,5 @@
 spring:
-  application:
-    name: book-store-facade-service
+  application.name: book-store-facade-service
 
 management:
   endpoints:
@@ -10,8 +9,7 @@ management:
 
 server:
   port: ${SERVER_PORT_FACADE}
-  servlet:
-    context-path: /${spring.application.name}
+  servlet.context-path: /${spring.application.name}
 
 data-service:
   author.url: ${DATA_URL}/book-store-data-service/v1/author

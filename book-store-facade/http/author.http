@@ -1,0 +1,11 @@
+@id=0194f161-5c42-7958-8915-7cf7496d4b00
+
+### GET authors
+GET {{facade-url}}/v1/author
+Authorization: Bearer {{jwt}}
+
+### GET author by ID
+GET {{facade-url}}/v1/author/{{id}}
+Authorization: Bearer {{jwt}}
+
+###

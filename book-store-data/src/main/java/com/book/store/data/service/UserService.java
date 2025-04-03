@@ -11,6 +11,4 @@ public interface UserService {
     void delete(UUID id);
     UserResponse findByUsername(String username);
     UserResponse findById(UUID id);
-    boolean existsByUsername(String username);
-    boolean existsByEmail(String email);
 }
