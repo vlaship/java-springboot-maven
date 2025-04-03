@@ -3,10 +3,10 @@
 
 ### GET books by authorId
 GET {{facade-url}}/v1/book/author/{{authorId}}
-Authorization: Bearer {{jwt}}
+Authorization: Bearer {{user-jwt}}
 
 ### GET book by ID
 GET {{facade-url}}/v1/book/{{id}}
-Authorization: Bearer {{jwt}}
+Authorization: Bearer {{user-jwt}}
 
 ###

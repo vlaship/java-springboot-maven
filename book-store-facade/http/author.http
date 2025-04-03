@@ -2,10 +2,10 @@
 
 ### GET authors
 GET {{facade-url}}/v1/author
-Authorization: Bearer {{jwt}}
+Authorization: Bearer {{user-jwt}}
 
 ### GET author by ID
 GET {{facade-url}}/v1/author/{{id}}
-Authorization: Bearer {{jwt}}
+Authorization: Bearer {{user-jwt}}
 
 ###

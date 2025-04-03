@@ -1,8 +1,8 @@
 @username=admin
-@password=admin_password
+@password=password_password
 @userId=87bc62c9-113d-479e-9d89-abe053316b3b
 
-### sign up
+### sign up admin
 POST {{facade-url}}/v1/auth/signup
 Content-Type: application/json
 
@@ -12,11 +12,30 @@ Content-Type: application/json
   "email": "admin@admin.com"
 }
 
-### login
+### login admin
 POST {{facade-url}}/v1/auth/login
 Content-Type: application/json
 
 {
   "username": "admin",
+  "password": "{{password}}"
+}
+
+### sign up user
+POST {{facade-url}}/v1/auth/signup
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "{{password}}",
+  "email": "user1@user.com"
+}
+
+### login user
+POST {{facade-url}}/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "user1",
   "password": "{{password}}"
 }

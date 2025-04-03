@@ -56,7 +56,7 @@ public class AuthController {
                 signupRequest.getUsername(),
                 passwordEncoder.encode(signupRequest.getPassword()),
                 signupRequest.getEmail(),
-                Collections.singletonList("ROLE_USER")
+                Collections.singletonList("USER")
         );
 
         userService.create(createUserRequest);

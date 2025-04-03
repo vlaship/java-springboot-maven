@@ -2,12 +2,15 @@ package com.book.store.facade.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -32,12 +35,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                    
+
                     if (jwtTokenUtil.validateToken(jwt, userDetails)) {
+                        // Get roles from JWT token
+                        List<String> roles = jwtTokenUtil.extractRoles(jwt);
+
+                        // Create authorities from roles
+                        List<SimpleGrantedAuthority> authorities = new java.util.ArrayList<>();
+                        if (roles != null) {
+                            for (String role : roles) {
+                                authorities.add(new SimpleGrantedAuthority(role));
+                            }
+                        }
+
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
+                                userDetails, null, authorities);
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        
+
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 }
