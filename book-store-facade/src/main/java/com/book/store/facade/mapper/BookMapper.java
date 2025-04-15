@@ -53,8 +53,9 @@ public class BookMapper {
         String isbn = facade.getIsbn();
         UUID authorId = facade.getAuthorId();
         BookType type = facade.getType();
+        List<UUID> storeIds = facade.getStoreIds();
 
-        return new CreateBookDataRequest(title, isbn, authorId, type);
+        return new CreateBookDataRequest(title, isbn, authorId, type, storeIds);
     }
 
     public UpdateBookDataRequest map(UpdateBookFacadeRequest facade) {
@@ -66,7 +67,8 @@ public class BookMapper {
         String isbn = facade.getIsbn();
         BookType type = facade.getType();
         UUID authorId = facade.getAuthorId();
+        List<UUID> storeIds = facade.getStoreIds();
 
-        return new UpdateBookDataRequest(title, isbn, type, authorId);
+        return new UpdateBookDataRequest(title, isbn, type, authorId, storeIds);
     }
 }

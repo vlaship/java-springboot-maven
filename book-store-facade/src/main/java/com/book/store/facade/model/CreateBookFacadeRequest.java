@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.ISBN;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -22,4 +23,7 @@ public class CreateBookFacadeRequest {
     private UUID authorId;
     @NotNull
     private BookType type;
+    @NotNull
+    @Size(min = 1)
+    private List<UUID> storeIds;
 }
