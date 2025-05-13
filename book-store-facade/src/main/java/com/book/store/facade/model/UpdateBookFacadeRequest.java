@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.ISBN;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -19,4 +20,5 @@ public class UpdateBookFacadeRequest {
     private String isbn;
     private BookType type;
     private UUID authorId;
+    private List<UUID> storeIds;
 }

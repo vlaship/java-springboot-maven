@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -14,4 +15,5 @@ public class UpdateBookDataRequest {
     private String isbn;
     private BookType type;
     private UUID authorId;
+    private List<UUID> storeIds;
 }
