@@ -23,6 +23,8 @@ This is a Spring Boot application for managing a book store. It follows a micros
 - MapStruct
 - OpenAPI/Swagger
 - Docker
+- Prometheus (for metrics collection)
+- Grafana (for metrics visualization)
 
 ### Domain Model
 - **Book**: Represents a book with title, ISBN, and type (hardcover, softcover, e-book)
@@ -39,6 +41,28 @@ The application is containerized using Docker and can be deployed using Docker C
 - PostgreSQL database
 - book-store-data service
 - book-store-facade service
+- Prometheus (metrics collection)
+- Grafana (metrics visualization)
+
+## Monitoring
+The application includes a monitoring setup with Prometheus and Grafana:
+
+### Prometheus
+- Collects metrics from both services via Spring Boot Actuator endpoints
+- Available at: http://localhost:9090
+
+### Grafana
+- Visualizes metrics collected by Prometheus
+- Pre-configured with Prometheus and PostgreSQL as data sources
+- Can read metrics directly from PostgreSQL for database monitoring
+- Available at: http://localhost:3000
+- Default credentials: admin/admin
+
+### PostgreSQL Monitoring
+- Grafana connects directly to PostgreSQL using the PostgreSQL data source
+- Metrics include query statistics, connection counts, database size, etc.
+- Includes a pre-configured PostgreSQL dashboard with common database metrics
+- Grafana dashboards can visualize database metrics through direct SQL queries
 
 ## Development
 The project follows standard Spring Boot development practices:

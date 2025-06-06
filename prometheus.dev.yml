@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'book-store-facade'
+    metrics_path: '/book-store-facade-service/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:19999']
+
+  - job_name: 'book-store-data'
+    metrics_path: '/book-store-data-service/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:18888']
+
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
